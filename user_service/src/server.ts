@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from "express"
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -6,15 +6,21 @@ const app = express();
 dotenv.config()
 import cookieParser from "cookie-parser"
 import userRouter from "./Routers/userRouter"
+import endorsementRouter from "./Routers/endorsementRouter"
 
 
-app.use(cors());
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials:true,
+}));
 app.use(express.json());
 app.use(cookieParser())
 
 
 // Routes
 app.use("/api/user",userRouter)
+app.use("/api/endorse",endorsementRouter)
+
 
 const mongoseEnv =process.env.MONGO_URI
 if(!mongoseEnv){
@@ -25,5 +31,5 @@ mongoose.connect(mongoseEnv)
 .catch((err)=>{console.log(err)})
 
 app.listen(process.env.PORT || 5001, () => {
-  console.log(`🚀 Server is running`);
+  console.log(`🚀 Server is running on port 5001`);
 });
